@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/root_mouse"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:background="@drawable/background_mouse" xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+	tools:ignore="UselessParent">
+
+	<LinearLayout android:layout_width="match_parent"
+		android:layout_height="220dp">
+
+		<ImageView android:id="@+id/mouse_left"
+			android:layout_width="wrap_content" android:layout_height="match_parent"
+			android:layout_gravity="bottom" android:layout_weight="1"
+			android:contentDescription="@string/mouse" android:scaleType="fitXY"
+			android:src="@drawable/mouse_line" />
+
+		<ImageView android:id="@+id/mouse_center"
+			android:layout_width="wrap_content" android:layout_height="match_parent"
+			android:contentDescription="@string/mouse" android:scaleType="fitXY"
+			android:src="@drawable/mouse_center" />
+
+		<ImageView android:id="@+id/mouse_right"
+			android:layout_width="wrap_content" android:layout_height="match_parent"
+			android:layout_gravity="bottom" android:layout_weight="1"
+			android:contentDescription="@string/mouse" android:scaleType="fitXY"
+			android:src="@drawable/mouse_line" />
+	</LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pad_key_equal">=</string>
+    <string name="pad_key_lk">(</string>
+    <string name="pad_key_rk">)</string>
+    <string name="pad_key_delete">Del</string>
+    <string name="pad_key_tab">Tab</string>
+    <string name="pad_key_slash">/</string>
+    <string name="pad_key_kome">＊</string>
+    <string name="pad_key_backspace">BS</string>
+    <string name="pad_key_minus">－</string>
+    <string name="pad_key_plus">+</string>
+    <string name="pad_key_enter">Enter</string>
+    <string name="pad_key_dot">.</string>
+    <string name="pad_key_zero">0</string>
+    <string name="pad_key_zero2">00</string>
+    <string name="pad_key_one">1</string>
+    <string name="pad_key_two">2</string>
+    <string name="pad_key_three">3</string>
+    <string name="pad_key_four">4</string>
+    <string name="pad_key_five">5</string>
+    <string name="pad_key_six">6</string>
+    <string name="pad_key_seven">7</string>
+    <string name="pad_key_eight">8</string>
+    <string name="pad_key_ningh">9</string>
+    <string name="pad_key_ten">10</string>
+
+</resources>

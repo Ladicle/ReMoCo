@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+	android:layout_height="match_parent" android:background="@drawable/background_noise"
+	android:orientation="vertical">
+
+	<TextView android:id="@+id/textView1" android:layout_width="wrap_content"
+		android:layout_height="0dp" android:layout_weight="1.5" />
+
+	<TableLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="0dp"
+	    android:layout_gravity="center"
+	    android:layout_weight="10" >
+
+		<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content"
+			android:layout_height="0dp" android:layout_marginBottom="@dimen/padding_large"
+			android:layout_weight="1" android:clickable="true" android:onClick="onStartWifi">
+			<ImageView android:id="@+id/imageView1"
+				android:layout_width="wrap_content" android:layout_height="match_parent"
+				android:contentDescription="@string/wifi" android:src="@drawable/wifi" />
+			<TextView android:id="@+id/textView4" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:layout_gravity="center"
+				android:layout_marginLeft="10dp" android:gravity="center"
+				android:text="@string/wifi" android:textSize="20sp" />
+		</TableRow>
+
+		<TableRow
+		    android:id="@+id/tableRow2"
+		    android:layout_width="wrap_content"
+		    android:layout_height="0dp"
+		    android:layout_weight="1"
+		    android:clickable="true"
+		    android:onClick="onStartUsb" >
+
+			<ImageView android:id="@+id/imageView2"
+				android:layout_width="wrap_content" android:layout_height="match_parent"
+				android:contentDescription="@string/usb" android:src="@drawable/usb" />
+			<TextView android:id="@+id/TextView01" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:layout_gravity="center"
+				android:layout_marginLeft="10dp" android:text="@string/usb"
+				android:textSize="20sp" />
+		</TableRow>
+	</TableLayout>
+
+	<TextView android:id="@+id/textView3" android:layout_width="wrap_content"
+		android:layout_height="0dp" android:layout_weight="2" />
+
+</LinearLayout>
