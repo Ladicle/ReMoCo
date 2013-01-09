@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">ReMoCo</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_help">ヘルプ</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="usb">USB</string>
+    <string name="mouse">mouse</string>
+    <string name="table">table</string>
+
+</resources>
