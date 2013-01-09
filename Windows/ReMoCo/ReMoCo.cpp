@@ -212,14 +212,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
 		break;
+
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		// TODO: ï`âÊÉRÅ[ÉhÇÇ±Ç±Ç…í«â¡ÇµÇƒÇ≠ÇæÇ≥Ç¢...
 		EndPaint(hWnd, &ps);
 		break;
+
 	case WM_DESTROY:
+		CloseHandle(g_wcThread);
 		PostQuitMessage(0);
 		break;
+
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

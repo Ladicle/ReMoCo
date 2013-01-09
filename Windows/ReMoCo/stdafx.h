@@ -24,11 +24,6 @@
 #define	WINDOW_HEIGHT	340
 #define MB_ERROR		MB_OK | MB_ICONERROR
 
-//Networkê›íË
-#define UDP_PORT		60001
-#define TCP_PORT		60002
-#define USB_IPADDR		"127.0.0.1"
-
 void usb(void* param);
 void wifi(void* param);
 void startButtonSetting(bool start);
