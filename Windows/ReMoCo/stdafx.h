@@ -1,13 +1,8 @@
-// stdafx.h : 標準のシステム インクルード ファイルのインクルード ファイル、または
-// 参照回数が多く、かつあまり変更されない、プロジェクト専用のインクルード ファイル
-// を記述します。
-//
-
 #pragma once
 
 #include "targetver.h"
 
-#define WIN32_LEAN_AND_MEAN             // Windows ヘッダーから使用されていない部分を除外します。
+#define WIN32_LEAN_AND_MEAN
 // Windows ヘッダー ファイル:
 #include <windows.h>
 
@@ -17,17 +12,23 @@
 #include <memory.h>
 #include <tchar.h>
 
+//追加のCランタイムヘッダ
 #include <stdio.h>
-#include <cstdio>
-#include <cstdlib>
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #include <process.h>
+#include <string.h>
 
-// TODO: プログラムに必要な追加ヘッダーをここで参照してください。
-void udp();
-void thread1(void* param);
+//Window設定
+#define	WINDOW_WIDTH	480
+#define	WINDOW_HEIGHT	340
+#define MB_ERROR		MB_OK | MB_ICONERROR
+
+//Network設定
+#define UDP_PORT		60001
+#define TCP_PORT		60002
+#define USB_IPADDR		"127.0.0.1"
+
+void usb(void* param);
+void wifi(void* param);
 void startButtonSetting(bool start);
-
-struct WCParam
-{
-	HWND hWnd;
-};

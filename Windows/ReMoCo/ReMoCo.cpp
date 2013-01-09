@@ -5,11 +5,9 @@
 #include "ReMoCo.h"
 
 #define MAX_LOADSTRING	100
-#define	WINDOW_WIDTH	480
-#define	WINDOW_HEIGHT	340
-#define ID_BUTTON1		(0)
-#define ID_BUTTON2		(ID_BUTTON1+1)
-#define ID_BUTTON3		(ID_BUTTON1+2)
+#define BTN_ID_WIFI		(0)
+#define BTN_ID_USB		(BTN_ID_WIFI+1)
+#define BTN_ID_STOP		(BTN_ID_WIFI+2)
 #define WS_ORIGINSTYLE	WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE
 #define WINDOW_X		(( GetSystemMetrics( SM_CXSCREEN ) - WINDOW_WIDTH  ) / 2)
 #define WINDOW_Y		(( GetSystemMetrics( SM_CYSCREEN ) - WINDOW_HEIGHT ) / 2)
@@ -169,9 +167,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
-		hWifiButton = CreatePushButton( hWnd, 20,  20, 80, 40, _T("Wi-Fi"), ID_BUTTON1 );
-		hUsbButton  = CreatePushButton( hWnd, 20,  70, 80, 40, _T("USB"), ID_BUTTON2 );
-		hStopButton = CreatePushButton( hWnd, 20,  120, 80, 40, _T("Stop"), ID_BUTTON3 );
+		hWifiButton = CreatePushButton( hWnd, 20,  20, 80, 40,  _T("Wi-Fi"), BTN_ID_WIFI );
+		hUsbButton  = CreatePushButton( hWnd, 20,  70, 80, 40,  _T("USB"),	 BTN_ID_USB );
+		hStopButton = CreatePushButton( hWnd, 20,  120, 80, 40, _T("Stop"),  BTN_ID_STOP );
 		startButtonSetting(false);
 		return 0;
 
@@ -181,24 +179,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// 選択されたメニューの解析:
 		switch (wmId)
 		{
-		case ID_BUTTON1:
+		case BTN_ID_WIFI:
 			if(g_wcThread != NULL && WaitForSingleObject(g_wcThread, 0) == WAIT_TIMEOUT){
-				MessageBox( hWnd, _T("現在実行中です。"), _T("WordCount"), MB_OK | MB_ICONEXCLAMATION );
+				MessageBox( hWnd, _T("実行中です。"), _T("Error"), MB_ERROR );
 				break;
 			}
 			CloseHandle(g_wcThread);
+			g_wcThread = (HANDLE)_beginthread(wifi, 0, hWnd);
+			break;
 
-			g_wcThread = (HANDLE)_beginthread(thread1, 0, hWnd);
-			
+		case BTN_ID_USB:
+			if(g_wcThread != NULL && WaitForSingleObject(g_wcThread, 0) == WAIT_TIMEOUT){
+				MessageBox( hWnd, _T("実行中です。"), _T("Error"), MB_ERROR );
+				break;
+			}
+			CloseHandle(g_wcThread);
+			g_wcThread = (HANDLE)_beginthread(usb, 0, hWnd);
 			break;
-		case ID_BUTTON2:
-			MessageBox( hWnd, _T("プッシュボタン２が押されました！"), _T("確認"), MB_OK );
-			startButtonSetting(true);
-			break;
-		case ID_BUTTON3:
-			MessageBox( hWnd, _T("プッシュボタン3が押されました！"), _T("確認"), MB_OK );
+
+		case BTN_ID_STOP:
+			MessageBox( hWnd, _T("停止します。"), _T("Message"), MB_OK );
 			startButtonSetting(false);
 			break;
+
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
