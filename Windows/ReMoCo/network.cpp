@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
 //Network設定
+#define BUFFER_SIZE		512
 #define UDP_PORT		60001
 #define TCP_PORT		60002
 #define USB_IPADDR		"127.0.0.1"
-#define BUFFER_SIZE		512
 
 //Process ID
 #define	ID_KEYBOARD		0
@@ -81,9 +81,35 @@ void wifi(void* param)
 //
 void usb(void* param)
 {
-	HWND hWnd = (HWND)param;
+	HWND	hWnd = (HWND)param;
+	WORD	wVersionRequested = MAKEWORD(2,2);
+    WSADATA wsaData[1];
+	char	command[BUFFER_SIZE];
 
-	system("adb forward tcp:60002 tcp:60002");
+	startButtonSetting(true);
+	
+	MessageBox( hWnd, _T("端末をUSB接続して下さい。"), _T("Message"), MB_OK );
+	sprintf_s(command, sizeof(command), "adb forward tcp:%d tcp:%d", TCP_PORT, TCP_PORT);
+	system(command);
+
+
+    if(WSAStartup(wVersionRequested,wsaData)){
+		wsprintf(message_buf, _T("Failed WSAStartup\nError: %d"), WSAGetLastError());
+        MessageBox( hWnd, message_buf, _T("Error"), MB_ERROR );
+		startButtonSetting(false);
+		return;
+    }
+
+	if(tcp(hWnd) == -1){
+        MessageBox( hWnd, _T("Failed tcp process"), _T("Error"), MB_ERROR );
+		startButtonSetting(false);
+		WSACleanup();
+		return;
+	}
+
+	startButtonSetting(false);
+	WSACleanup();
+	return;
 }
 
 
@@ -158,18 +184,22 @@ int udp(HWND hWnd)
 //
 //  目的: TCP通信を行いAndroid端末から操作内容を取得する。
 //
-//  コメント: 
+//  ID_KEYBOARD		- キーボードイベントの処理
+//  ID_MOUSE		- マウスボタンの処理
+//  ID_MOUSE_MOVE	- マウスカーソルの処理
+//  ID_STOP			- 通信の終了
 //
 //
 int tcp(HWND hWnd)
 {
-	SOCKET sock;
-	HANDLE thread;
-	struct sockaddr_in addr;
-	char   recv_buff[BUFFER_SIZE], *process_buff;
-	int	   id, x, y;
-	int	   recv_len = 0;
-	int	   sockaddr_in_size = sizeof(struct sockaddr_in);
+	SOCKET	sock;
+	HANDLE	thread;
+	struct  sockaddr_in addr;
+	char	recv_buff[BUFFER_SIZE], *process_buff;
+	char	*ctx, *delim=",";
+	int		id, x, y;
+	int		recv_len = 0;
+	int		sockaddr_in_size = sizeof(struct sockaddr_in);
 
 
 	sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -218,24 +248,24 @@ int tcp(HWND hWnd)
 
 
 		//処理抽出
-		process_buff = strtok(recv_buff, ",");
+		process_buff = strtok_s(recv_buff, delim, &ctx);
 		id = atoi(process_buff);
 
 		switch(id){
 		case ID_KEYBOARD:
-			process_buff = strtok(NULL,",");
+			process_buff = strtok_s(NULL, delim, &ctx);
 			Keyboard(process_buff);
 			break;
 
 		case ID_MOUSE:
-			process_buff = strtok(NULL,",");
+			process_buff = strtok_s(NULL, delim, &ctx);
 			Mouse(process_buff);
 			break;
 
 		case ID_MOUSE_MOVE:
-			process_buff = strtok(NULL,",");
+			process_buff = strtok_s(NULL, delim, &ctx);
 			x = atoi(process_buff);
-			process_buff = strtok(NULL,",");
+			process_buff = strtok_s(NULL, delim, &ctx);
 			y = atoi(process_buff);
 			Mouse_move(x,y);
 			break;
@@ -334,7 +364,8 @@ void Keyboard(char *t)
 //
 void Mouse(char *u)
 {	
-	int z = 0;
+	char *ctx, *delim=",";
+	int	z = 0;
 	static int flag = 0;
 
 	//LEFT
@@ -380,7 +411,7 @@ void Mouse(char *u)
 
 	//WHEEL
 	if(strcmp(u, "mousewheel")==0){
-		u = strtok(NULL,",");
+		u = strtok_s(NULL, delim, &ctx);
 		z = atoi(u);
 		mouse_event(MOUSEEVENTF_WHEEL,0,0,z,0);
 	}

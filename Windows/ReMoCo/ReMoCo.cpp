@@ -134,7 +134,7 @@ HWND CreatePushButton(HWND hWnd, int x, int y, int w, int h, LPCTSTR caption, in
 		w, h,                                    // サイズ
 		hWnd,                                    // 親ウィンドウのハンドル
 		(HMENU)(INT_PTR)id,                      // メニューハンドル（ここをID指定に流用できる）
-		hInst,                                 // インスタンスハンドル
+		hInst,									 // インスタンスハンドル
 		NULL                                     // その他の作成データ
 	);
 }
@@ -215,7 +215,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		// TODO: 描画コードをここに追加してください...
 		EndPaint(hWnd, &ps);
 		break;
 
