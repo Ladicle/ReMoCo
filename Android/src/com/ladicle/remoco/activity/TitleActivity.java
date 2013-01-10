@@ -9,16 +9,16 @@ import android.preference.PreferenceManager;
 import android.widget.RelativeLayout;
 
 import com.ladicle.remoco.R;
-import com.ladicle.remoco.obj.Display;
+import com.ladicle.remoco.obj.Global;
 import com.ladicle.util.MyLog;
 
 public class TitleActivity extends Activity {
+	// Debug
 	private static final String CLASS_NAME = "TitleActivity";
 	private static final MyLog log = new MyLog(CLASS_NAME);
-	private static final Display display = Display.getInstance();
+
 	private RelativeLayout reLayout;
 	private Editor editor;
-	private boolean flag;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,15 +26,11 @@ public class TitleActivity extends Activity {
 		setContentView(R.layout.activity_title);
 		log.d("onCreate");
 
+		//Load value from preference
 		SharedPreferences sp = PreferenceManager
 				.getDefaultSharedPreferences(this);
+		if (Global.loadPreference(sp)) nextScene();
 
-		if (display.getWidth() != 0) {
-			display.setHeight(sp.getInt(Display.PREF_KEY_HEIGHT, 0));
-
-			startActivity(new Intent(TitleActivity.this, SelectActivity.class));
-			finish();
-		}
 		reLayout = (RelativeLayout) findViewById(R.id.title_root);
 		editor = sp.edit();
 	}
@@ -43,9 +39,17 @@ public class TitleActivity extends Activity {
 	public void onWindowFocusChanged(boolean hasFnocus) {
 		super.onWindowFocusChanged(hasFnocus);
 
-		if (flag) {
-			Display.savePreference(editor, reLayout.getWidth(),
-					reLayout.getHeight());
-		}
+		//Save window size
+		Global.WINDOW_WIDTH  = reLayout.getWidth();
+		Global.WINDOW_HEIGHT = reLayout.getHeight();
+		Global.savePreference(editor);
+		
+		nextScene();
+	}
+
+	/** Go to next scene */
+	private void nextScene() {
+		startActivity(new Intent(TitleActivity.this, SelectActivity.class));
+		finish();
 	}
 }

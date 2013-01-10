@@ -4,6 +4,7 @@
 package com.ladicle.remoco.pad;
 
 import android.os.Bundle;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -13,7 +14,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.ladicle.remoco.R;
-import com.ladicle.remoco.obj.Display;
+import com.ladicle.remoco.obj.Global;
 import com.ladicle.util.MyLog;
 
 public class TenKeyPad extends Pad implements OnTouchListener {
@@ -48,11 +49,10 @@ public class TenKeyPad extends Pad implements OnTouchListener {
 	 * Setting View size.
 	 */
 	private void setViewSize() {
-		Display display = Display.getInstance();
 		TableLayout layout = (TableLayout) findViewById(R.id.root_tenkey);
 		FrameLayout.LayoutParams lpParams = (LayoutParams) layout
 				.getLayoutParams();
-		lpParams.height = display.getHeight();
+		lpParams.height = Global.WINDOW_HEIGHT;
 		layout.setLayoutParams(lpParams);
 	}
 
