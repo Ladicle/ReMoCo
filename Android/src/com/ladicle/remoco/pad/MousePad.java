@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import com.ladicle.remoco.R;
 import com.ladicle.remoco.activity.MainActivity;
 import com.ladicle.remoco.net.IConnectionService;
-import com.ladicle.remoco.obj.Display;
+import com.ladicle.remoco.obj.Global;
 
 public class MousePad extends Pad {
 	private static final String NAME = "Mouse Pad";
@@ -27,11 +27,10 @@ public class MousePad extends Pad {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pad_mouse);
 
-		Display display = Display.getInstance();
 		LinearLayout layout = (LinearLayout) findViewById(R.id.root_mouse);
 		FrameLayout.LayoutParams lpParams = (LayoutParams) layout
 				.getLayoutParams();
-		lpParams.height = display.getHeight();
+		lpParams.height = Global.WINDOW_HEIGHT;
 		layout.setLayoutParams(lpParams);
 	}
 

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ladicle.remoco.net;
 
 import java.io.OutputStream;
@@ -13,17 +10,12 @@ import android.os.IBinder;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 
-import com.ladicle.remoco.obj.Network;
+import com.ladicle.remoco.obj.Global;
 import com.ladicle.util.MyLog;
 
-/**
- * @author Aya
- * 
- */
 public class Connection extends IntentService {
 	private static final String TAG = "Connection";
 	private static final MyLog log = new MyLog(TAG);
-	private Network net = Network.getInstance();
 
 	// Network values
 	private ServerSocket servers;
@@ -38,7 +30,7 @@ public class Connection extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		try {
-			servers = new ServerSocket(net.getTcpPort());
+			servers = new ServerSocket(Global.TCP_PORT);
 			log.i("Set up server.");
 			socket = servers.accept();
 			log.i("Connected to " + socket.getInetAddress());
@@ -100,6 +92,11 @@ public class Connection extends IntentService {
 			} catch (Exception e) {
 				log.e(e.getMessage());
 			}
+		}
+
+		public boolean disConnect() throws RemoteException {
+			// TODO Auto-generated method stub
+			return false;
 		}
 
 	};

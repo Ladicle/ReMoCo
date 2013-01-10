@@ -23,17 +23,18 @@ import com.ladicle.remoco.R;
 import com.ladicle.remoco.net.Connection;
 import com.ladicle.remoco.net.IConnectionService;
 import com.ladicle.remoco.net.IMassageCallback;
-import com.ladicle.remoco.obj.Network;
 import com.ladicle.remoco.pad.MousePad;
 import com.ladicle.remoco.pad.TenKeyPad;
 import com.ladicle.util.MyLog;
 
 public class MainActivity extends ActivityGroup {
-	private static final String CLASS_NAME = MainActivity.class.getSimpleName();
+	//Debug
+	private static final String CLASS_NAME = "MainActivity";
+	private static final MyLog log = new MyLog(CLASS_NAME);
+	
 	private static final String ACTIVITY_PAD = "PAD";
 	private static final int RANGE = 5;
-	private static final MyLog log = new MyLog(CLASS_NAME);
-
+	
 	private LinearLayout root, menu;
 	private Resources resources;
 	private Window window;
@@ -75,8 +76,6 @@ public class MainActivity extends ActivityGroup {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		resources = getResources();
-		Network.getInstance().setData(
-				PreferenceManager.getDefaultSharedPreferences(this));
 
 		findViews();
 		makeManuButton();
