@@ -3,7 +3,7 @@ package com.ladicle.remoco.pad;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.ladicle.util.MyLog;
+import com.ladicle.remoco.util.MyLog;
 
 public class Pad extends Activity {
 	protected MyLog log;

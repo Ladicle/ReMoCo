@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ladicle.remoco.activity;
 
 import java.io.IOException;
@@ -20,8 +17,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ladicle.remoco.R;
-import com.ladicle.remoco.obj.Global;
-import com.ladicle.util.MyLog;
+import com.ladicle.remoco.util.Global;
+import com.ladicle.remoco.util.MyLog;
 
 public class SelectActivity extends Activity {
 	// Debug
@@ -57,7 +54,7 @@ public class SelectActivity extends Activity {
 		goNextScene();
 	}
 
-	/** UDP broad cast and send device IPaddress */ 
+	/** UDP broad cast and send device IPaddress */
 	private void udpSend(final String sendMessage) {
 		new Thread(new Runnable() {
 			public void run() {
@@ -88,11 +85,15 @@ public class SelectActivity extends Activity {
 					return;
 				}
 
-				// HANDLER.post(new Runnable() {
-				// public void run() {
-				// goNextScene();
-				// }
-				// });
+				HANDLER.post(new Runnable() {
+					public void run() {
+						Toast.makeText(
+								SelectActivity.this,
+								"IPAddr: " + UDP_IPADDRESS + "\nPORT: "
+										+ Global.UDP_PORT, Toast.LENGTH_LONG)
+								.show();
+					}
+				});
 				goNextScene();
 			}
 		}).start();
@@ -111,8 +112,7 @@ public class SelectActivity extends Activity {
 	/** Go to next scene */
 	private void goNextScene() {
 		log.d("goNextScene");
-		startActivity(new Intent(this, MainActivity.class));
-		finish();
+		startActivity(new Intent(this, ControllerActivity.class));
 	}
 
 	/** Get device IPaddress */

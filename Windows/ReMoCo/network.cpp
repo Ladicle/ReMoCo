@@ -88,10 +88,9 @@ void usb(void* param)
 
 	startButtonSetting(true);
 	
-	MessageBox( hWnd, _T("端末をUSB接続して下さい。"), _T("Message"), MB_OK );
+	MessageBox( hWnd, _T("端末をUSB接続し\nUSBボタンを押して下さい。"), _T("Message"), MB_OK );
 	sprintf_s(command, sizeof(command), "adb forward tcp:%d tcp:%d", TCP_PORT, TCP_PORT);
 	system(command);
-
 
     if(WSAStartup(wVersionRequested,wsaData)){
 		wsprintf(message_buf, _T("Failed WSAStartup\nError: %d"), WSAGetLastError());
@@ -100,6 +99,7 @@ void usb(void* param)
 		return;
     }
 
+	strcpy_s(ipaddr, sizeof(ipaddr), USB_IPADDR);
 	if(tcp(hWnd) == -1){
         MessageBox( hWnd, _T("Failed tcp process"), _T("Error"), MB_ERROR );
 		startButtonSetting(false);
@@ -151,6 +151,8 @@ int udp(HWND hWnd)
 		return -1;
 	}
 
+	MessageBox( hWnd, _T("Wi-FIボタンを押してください。"), _T("Message"), MB_OK );
+
 	memset(ipaddr, 0, sizeof(ipaddr));
 	recv_len = recvfrom(sock, ipaddr, sizeof(ipaddr)-1, 0, (struct sockaddr *)&from, &sockaddr_in_size);
 	ipaddr[recv_len] = '\0';
@@ -171,7 +173,7 @@ int udp(HWND hWnd)
 	}
 
 	wsprintf(message_buf, _T("IPADDR: %s"), ipaddr);
-	MessageBox( hWnd, message_buf, _T("Error"), MB_OK );
+	MessageBox( hWnd, message_buf, _T("Message"), MB_OK );
 
 	shutdown(sock , SD_BOTH);
 	closesocket(sock);
@@ -246,10 +248,15 @@ int tcp(HWND hWnd)
 			return -1;
 		}
 
+		//受信内容
+		wsprintf(message_buf, _T("recv: %s"), recv_buff);
+		MessageBox( hWnd, message_buf, _T("Messager"), MB_OK );
 
-		//処理抽出
+
+		//処理抽出		
 		process_buff = strtok_s(recv_buff, delim, &ctx);
 		id = atoi(process_buff);
+
 
 		switch(id){
 		case ID_KEYBOARD:
@@ -271,7 +278,9 @@ int tcp(HWND hWnd)
 			break;
 
 		case ID_STOP:
-			break;
+			shutdown(sock , SD_BOTH);
+			closesocket(sock);
+			return 0;
 		}
 	}
 

@@ -4,7 +4,6 @@
 package com.ladicle.remoco.pad;
 
 import android.os.Bundle;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -14,8 +13,8 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.ladicle.remoco.R;
-import com.ladicle.remoco.obj.Global;
-import com.ladicle.util.MyLog;
+import com.ladicle.remoco.util.Global;
+import com.ladicle.remoco.util.MyLog;
 
 public class TenKeyPad extends Pad implements OnTouchListener {
 

@@ -9,8 +9,8 @@ import android.preference.PreferenceManager;
 import android.widget.RelativeLayout;
 
 import com.ladicle.remoco.R;
-import com.ladicle.remoco.obj.Global;
-import com.ladicle.util.MyLog;
+import com.ladicle.remoco.util.Global;
+import com.ladicle.remoco.util.MyLog;
 
 public class TitleActivity extends Activity {
 	// Debug

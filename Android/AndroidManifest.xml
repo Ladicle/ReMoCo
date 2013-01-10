@@ -16,7 +16,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".activity.MainActivity"
+		<activity android:name=".activity.ControllerActivity"
 			android:screenOrientation="portrait">
 		</activity>
 		<activity android:name=".pad.MousePad"
@@ -28,10 +28,6 @@
 		<activity android:name=".pad.TenKeyPad"
 			android:screenOrientation="portrait">
 		</activity>
-		<service android:name=".net.Connection">
-			<action android:name="com.ladiclexxx.remoco.net.IConnectionService"></action>
-			<action android:name="com.ladiclexxx.remoco.net.IMassageCallback"></action>
-		</service>
 	</application>
 
 </manifest>

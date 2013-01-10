@@ -8,4 +8,6 @@ interface IConnectionService {
 	oneway void unregisterCallback(IMassageCallback callback);
 
 	void sendMessage(String message);
+	void disconnect();
+	void connect();
 }
