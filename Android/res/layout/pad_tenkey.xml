@@ -15,22 +15,27 @@
         <TextView
             android:id="@+id/tenky_btn0"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_equal" />
+            android:tag="3,l"
+            android:text="@string/pad_key_left" />
 
         <TextView
             android:id="@+id/tenky_btn1"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_lk" />
+            android:tag="3,d"
+            android:text="@string/pad_key_down" />
 
         <TextView
             android:id="@+id/tenky_btn2"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_rk" />
+            android:tag="3,u"
+            android:text="@string/pad_key_up" />
 
         <TextView
             android:id="@+id/tenky_btn3"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_delete" />
+            android:tag="3,r"
+            android:text="@string/pad_key_right" />
+
     </TableRow>
 
     <TableRow
@@ -43,22 +48,27 @@
         <TextView
             android:id="@+id/tenky_btn4"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_tab" />
+            android:tag="4,div"
+            android:text="@string/pad_key_slash" />
 
         <TextView
             android:id="@+id/tenky_btn5"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_slash" />
+            android:tag="4,mul"
+            android:text="@string/pad_key_kome" />
 
         <TextView
             android:id="@+id/tenky_btn6"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_kome" />
+            android:tag="4,del"
+            android:text="@string/pad_key_delete" />
 
         <TextView
             android:id="@+id/tenky_btn7"
             style="@style/tenkey_button"
+            android:tag="4,bs"
             android:text="@string/pad_key_backspace" />
+
     </TableRow>
 
     <TableRow
@@ -71,22 +81,27 @@
         <TextView
             android:id="@+id/tenky_btn8"
             style="@style/tenkey_button"
+            android:tag="0,7"
             android:text="@string/pad_key_seven" />
 
         <TextView
             android:id="@+id/tenky_btn9"
             style="@style/tenkey_button"
+            android:tag="0,8"
             android:text="@string/pad_key_eight" />
 
         <TextView
             android:id="@+id/tenky_btn10"
             style="@style/tenkey_button"
+            android:tag="0,9"
             android:text="@string/pad_key_ningh" />
 
         <TextView
             android:id="@+id/tenky_btn11"
             style="@style/tenkey_button"
+            android:tag="4,sub"
             android:text="@string/pad_key_minus" />
+
     </TableRow>
 
     <TableRow
@@ -99,22 +114,27 @@
         <TextView
             android:id="@+id/tenky_btn12"
             style="@style/tenkey_button"
+            android:tag="0,4"
             android:text="@string/pad_key_four" />
 
         <TextView
             android:id="@+id/tenky_btn13"
             style="@style/tenkey_button"
+            android:tag="0,5"
             android:text="@string/pad_key_five" />
 
         <TextView
             android:id="@+id/tenky_btn14"
             style="@style/tenkey_button"
+            android:tag="0,6"
             android:text="@string/pad_key_six" />
 
         <TextView
             android:id="@+id/tenky_btn15"
             style="@style/tenkey_button"
+            android:tag="4,add"
             android:text="@string/pad_key_plus" />
+
     </TableRow>
 
     <TableRow
@@ -127,16 +147,19 @@
         <TextView
             android:id="@+id/tenky_btn16"
             style="@style/tenkey_button"
+            android:tag="0,1"
             android:text="@string/pad_key_one" />
 
         <TextView
             android:id="@+id/tenky_btn17"
             style="@style/tenkey_button"
+            android:tag="0,2"
             android:text="@string/pad_key_two" />
 
         <TextView
             android:id="@+id/tenky_btn18"
             style="@style/tenkey_button"
+            android:tag="0,3"
             android:text="@string/pad_key_three" />
 
         <TextView
@@ -144,7 +167,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="top"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:tag="4,ret" />
+
     </TableRow>
 
     <TableRow
@@ -157,17 +182,20 @@
         <TextView
             android:id="@+id/tenky_btn20"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_zero" />
+            android:tag="4,dec"
+            android:text="@string/pad_key_dot" />
 
         <TextView
             android:id="@+id/tenky_btn21"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_zero2" />
+            android:tag="0,0"
+            android:text="@string/pad_key_zero" />
 
         <TextView
             android:id="@+id/tenky_btn22"
             style="@style/tenkey_button"
-            android:text="@string/pad_key_dot" />
+            android:tag="4,sp"
+            android:text="@string/pad_key_space" />
 
         <TextView
             android:id="@+id/tenky_btn23"
@@ -176,7 +204,9 @@
             android:layout_gravity="top"
             android:layout_weight="1"
             android:gravity="top|center_horizontal"
+            android:tag="4,ret"
             android:text="@string/pad_key_enter" />
+
     </TableRow>
 
 </TableLayout>

@@ -8,9 +8,21 @@
 
 //Process ID
 #define	ID_KEYBOARD		0
+#define	ID_KEY_ARROW	3
+#define	ID_KEY_SPECIAL	4
 #define ID_MOUSE		1
 #define ID_MOUSE_MOVE	2
 #define	ID_STOP			-2
+
+//Mouse event
+#define MOUSE_RIGHT_UP		"ru"
+#define MOUSE_RIGHT_DOWN	"rd"
+#define MOUSE_LEFT_UP		"lu"
+#define	MOUSE_LEFT_DOWN		"ld"
+#define MOUSE_CENTER_UP		"cu"
+#define MOUSE_CENTER_DOWN	"cd"
+#define MOUSE_CENTER_MOVE	"cm"
+
 
 //Network
 int udp(HWND hWnd);
@@ -19,6 +31,8 @@ void sendMessage(void* socket);
 
 //Controll
 void Keyboard(char *t);
+void Keyboard_arrow(char *t);
+void Keyboard_special(char *t);
 void Mouse(char *u);
 void Mouse_move(int x1,int y1);
 
@@ -264,6 +278,16 @@ int tcp(HWND hWnd)
 			Keyboard(process_buff);
 			break;
 
+		case ID_KEY_ARROW:
+			process_buff = strtok_s(NULL, delim, &ctx);
+			Keyboard_arrow(process_buff);
+			break;
+
+		case ID_KEY_SPECIAL:
+			process_buff = strtok_s(NULL, delim, &ctx);
+			Keyboard_special(process_buff);
+			break;
+
 		case ID_MOUSE:
 			process_buff = strtok_s(NULL, delim, &ctx);
 			Mouse(process_buff);
@@ -330,6 +354,54 @@ void Keyboard(char *t)
 {
 	WPARAM wp = *t;
 
+	keybd_event( wp, 0, 0, 0 );
+	keybd_event( wp, 0, KEYEVENTF_KEYUP, 0);
+}
+
+
+//
+//  関数: void Keyboard_arrow(char *t)
+//
+//  目的: キーボードの矢印イベントを制御する。
+//
+//
+void Keyboard_arrow(char *t)
+{
+	WPARAM wp = *t;
+
+	if(strcmp(t, "r")==0){
+		keybd_event( VK_DELETE, 0, 0, 0 );
+		keybd_event( VK_DELETE, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "l")==0){
+		keybd_event( VK_DELETE, 0, 0, 0 );
+		keybd_event( VK_DELETE, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "d")==0){
+		keybd_event( VK_BACK, 0, 0, 0 );
+		keybd_event( VK_BACK, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "u")==0){
+		keybd_event( VK_TAB, 0, 0, 0 );
+		keybd_event( VK_TAB, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+}
+
+
+//
+//  関数: void Keyboard_special(char *t)
+//
+//  目的: キーボードの矢印イベントを制御する。
+//
+//
+void Keyboard_special(char *t)
+{
+	WPARAM wp = *t;
+
 	//SHIFT
 	if(strcmp(t, "shift")==0){
 		keybd_event( VK_SHIFT, 0, 0, 0);
@@ -360,8 +432,52 @@ void Keyboard(char *t)
 		return;
 	}
 
-	keybd_event( wp, 0, 0, 0 );
-	keybd_event( wp, 0, KEYEVENTF_KEYUP, 0);
+	//ETC
+	if(strcmp(t, "div")==0){
+		keybd_event( VK_DIVIDE, 0, 0, 0 );
+		keybd_event( VK_DIVIDE, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "del")==0){
+		keybd_event( VK_DELETE, 0, 0, 0 );
+		keybd_event( VK_DELETE, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "bs")==0){
+		keybd_event( VK_BACK, 0, 0, 0 );
+		keybd_event( VK_BACK, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "sp")==0){
+		keybd_event( VK_SPACE, 0, 0, 0 );
+		keybd_event( VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "ret")==0){
+		keybd_event( VK_RETURN, 0, 0, 0 );
+		keybd_event( VK_RETURN, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "sub")==0){
+		keybd_event( VK_SUBTRACT, 0, 0, 0 );
+		keybd_event( VK_SUBTRACT, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "dec")==0){
+		keybd_event( VK_DECIMAL, 0, 0, 0 );
+		keybd_event( VK_DECIMAL, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "mul")==0){
+		keybd_event( VK_MULTIPLY, 0, 0, 0 );
+		keybd_event( VK_MULTIPLY, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
+	if(strcmp(t, "add")==0){
+		keybd_event( VK_ADD, 0, 0, 0 );
+		keybd_event( VK_ADD, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
 }
 
 
@@ -378,48 +494,48 @@ void Mouse(char *u)
 	static int flag = 0;
 
 	//LEFT
-	if(strcmp(u, "left_down")==0){
+	if(strcmp(u, MOUSE_LEFT_DOWN)==0){
 		if(flag==0){
 			mouse_event(MOUSEEVENTF_LEFTDOWN,0,0,0,0);
 			flag = 1;
 		}
 		return;
 	}
-	if(strcmp(u, "left_up")==0){
+	if(strcmp(u, MOUSE_LEFT_UP)==0){
 		mouse_event(MOUSEEVENTF_LEFTUP,0,0,0,0);
 		flag = 0;
 		return;
 	}
 	
 	//RIGHT
-	if(strcmp(u, "right_down")==0){
+	if(strcmp(u, MOUSE_RIGHT_DOWN)==0){
 		if(flag==0){
 			mouse_event(MOUSEEVENTF_RIGHTDOWN,0,0,0,0);
 			flag=1;
 		}
 		return;
 	}
-	if(strcmp(u, "right_up")==0){
+	if(strcmp(u, MOUSE_RIGHT_UP)==0){
 		mouse_event(MOUSEEVENTF_RIGHTUP,0,0,0,0);
 		flag=0;
 		return;
 	}
 
 	//CENTER
-	if(strcmp(u, "center_down")==0){
+	if(strcmp(u, MOUSE_CENTER_DOWN)==0){
 		if(flag==0){
 			mouse_event(MOUSEEVENTF_MIDDLEDOWN,0,0,0,0);
 		}
 		return;
 	}
-	if(strcmp(u, "center_up")==0){
+	if(strcmp(u, MOUSE_CENTER_UP)==0){
 		mouse_event(MOUSEEVENTF_MIDDLEUP,0,0,0,0);
 		flag=0;
 		return;
 	}
 
 	//WHEEL
-	if(strcmp(u, "mousewheel")==0){
+	if(strcmp(u, MOUSE_CENTER_MOVE)==0){
 		u = strtok_s(NULL, delim, &ctx);
 		z = atoi(u);
 		mouse_event(MOUSEEVENTF_WHEEL,0,0,z,0);
