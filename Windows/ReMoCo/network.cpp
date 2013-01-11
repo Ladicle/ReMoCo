@@ -9,9 +9,11 @@
 //Process ID
 #define	ID_KEYBOARD		0
 #define	ID_KEY_ARROW	3
+#define	ID_KEY_FUNCTION	6
 #define	ID_KEY_SPECIAL	4
 #define ID_MOUSE		1
 #define ID_MOUSE_MOVE	2
+#define ID_MOUSE_PMOVE	5
 #define	ID_STOP			-2
 
 //Mouse event
@@ -22,6 +24,7 @@
 #define MOUSE_CENTER_UP		"cu"
 #define MOUSE_CENTER_DOWN	"cd"
 #define MOUSE_CENTER_MOVE	"cm"
+#define MOUSE_LEFT_CLICK	"lc"
 
 
 //Network
@@ -33,13 +36,15 @@ void sendMessage(void* socket);
 void Keyboard(char *t);
 void Keyboard_arrow(char *t);
 void Keyboard_special(char *t);
-void Mouse(char *u);
+void Keyboard_function(int num);
+void Mouse(char *u, HWND hWnd);
 void Mouse_move(int x1,int y1);
+void Mouse_move_init(int x1,int y1);
 
 //Common
+int		x2=0, y2=0;
 char	ipaddr[16];
 TCHAR	message_buf[1024];
-
 
 
 //
@@ -66,14 +71,12 @@ void wifi(void* param)
     }
 
 	if(udp(hWnd) == -1){
-        MessageBox( hWnd, _T("Failed udp process"), _T("Error"), MB_ERROR );
 		startButtonSetting(false);
 		WSACleanup();
 		return;
 	}
 
 	if(tcp(hWnd) == -1){
-        MessageBox( hWnd, _T("Failed tcp process"), _T("Error"), MB_ERROR );
 		startButtonSetting(false);
 		WSACleanup();
 		return;
@@ -104,7 +107,7 @@ void usb(void* param)
 	
 	MessageBox( hWnd, _T("端末をUSB接続し\nUSBボタンを押して下さい。"), _T("Message"), MB_OK );
 	sprintf_s(command, sizeof(command), "adb forward tcp:%d tcp:%d", TCP_PORT, TCP_PORT);
-	system(command);
+	system("adb forward tcp:60002 tcp:60002");
 
     if(WSAStartup(wVersionRequested,wsaData)){
 		wsprintf(message_buf, _T("Failed WSAStartup\nError: %d"), WSAGetLastError());
@@ -115,7 +118,6 @@ void usb(void* param)
 
 	strcpy_s(ipaddr, sizeof(ipaddr), USB_IPADDR);
 	if(tcp(hWnd) == -1){
-        MessageBox( hWnd, _T("Failed tcp process"), _T("Error"), MB_ERROR );
 		startButtonSetting(false);
 		WSACleanup();
 		return;
@@ -263,8 +265,8 @@ int tcp(HWND hWnd)
 		}
 
 		//受信内容
-		wsprintf(message_buf, _T("recv: %s"), recv_buff);
-		MessageBox( hWnd, message_buf, _T("Messager"), MB_OK );
+		//wsprintf(message_buf, _T("recv: %s"), recv_buff);
+		//MessageBox( hWnd, message_buf, _T("Messager"), MB_OK );
 
 
 		//処理抽出		
@@ -283,6 +285,11 @@ int tcp(HWND hWnd)
 			Keyboard_arrow(process_buff);
 			break;
 
+		case ID_KEY_FUNCTION:
+			process_buff = strtok_s(NULL, delim, &ctx);
+			Keyboard_function(atoi(process_buff));
+			break;
+
 		case ID_KEY_SPECIAL:
 			process_buff = strtok_s(NULL, delim, &ctx);
 			Keyboard_special(process_buff);
@@ -290,7 +297,15 @@ int tcp(HWND hWnd)
 
 		case ID_MOUSE:
 			process_buff = strtok_s(NULL, delim, &ctx);
-			Mouse(process_buff);
+			Mouse(process_buff, hWnd);
+			break;
+
+		case ID_MOUSE_PMOVE:
+			process_buff = strtok_s(NULL, delim, &ctx);
+			x = atoi(process_buff);
+			process_buff = strtok_s(NULL, delim, &ctx);
+			y = atoi(process_buff);
+			Mouse_move_init(x,y);
 			break;
 
 		case ID_MOUSE_MOVE:
@@ -370,24 +385,99 @@ void Keyboard_arrow(char *t)
 	WPARAM wp = *t;
 
 	if(strcmp(t, "r")==0){
-		keybd_event( VK_DELETE, 0, 0, 0 );
-		keybd_event( VK_DELETE, 0, KEYEVENTF_KEYUP, 0);
+		keybd_event( VK_RIGHT, 0, 0, 0 );
+		keybd_event( VK_RIGHT, 0, KEYEVENTF_KEYUP, 0);
 		return;
 	}
 	if(strcmp(t, "l")==0){
-		keybd_event( VK_DELETE, 0, 0, 0 );
-		keybd_event( VK_DELETE, 0, KEYEVENTF_KEYUP, 0);
+		keybd_event( VK_LEFT, 0, 0, 0 );
+		keybd_event( VK_LEFT, 0, KEYEVENTF_KEYUP, 0);
 		return;
 	}
 	if(strcmp(t, "d")==0){
-		keybd_event( VK_BACK, 0, 0, 0 );
-		keybd_event( VK_BACK, 0, KEYEVENTF_KEYUP, 0);
+		keybd_event( VK_DOWN, 0, 0, 0 );
+		keybd_event( VK_DOWN, 0, KEYEVENTF_KEYUP, 0);
 		return;
 	}
 	if(strcmp(t, "u")==0){
-		keybd_event( VK_TAB, 0, 0, 0 );
-		keybd_event( VK_TAB, 0, KEYEVENTF_KEYUP, 0);
+		keybd_event( VK_UP, 0, 0, 0 );
+		keybd_event( VK_UP, 0, KEYEVENTF_KEYUP, 0);
 		return;
+	}
+}
+
+//
+//  関数: void Keyboard_function(int num)
+//
+//  目的: キーボードのファンクションイベントを制御する。
+//
+//
+void Keyboard_function(int num)
+{
+	switch (num)
+	{
+	case 1:
+		keybd_event( VK_F1, 0, 0, 0 );
+		keybd_event( VK_F1, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 2:
+		keybd_event( VK_F2, 0, 0, 0 );
+		keybd_event( VK_F2, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 3:
+		keybd_event( VK_F3, 0, 0, 0 );
+		keybd_event( VK_F3, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 4:
+		keybd_event( VK_F4, 0, 0, 0 );
+		keybd_event( VK_F4, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 5:
+		keybd_event( VK_F5, 0, 0, 0 );
+		keybd_event( VK_F5, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 6:
+		keybd_event( VK_F6, 0, 0, 0 );
+		keybd_event( VK_F6, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 7:
+		keybd_event( VK_F7, 0, 0, 0 );
+		keybd_event( VK_F7, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 8:
+		keybd_event( VK_F8, 0, 0, 0 );
+		keybd_event( VK_F8, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 9:
+		keybd_event( VK_F9, 0, 0, 0 );
+		keybd_event( VK_F9, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 10:
+		keybd_event( VK_F10, 0, 0, 0 );
+		keybd_event( VK_F10, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 11:
+		keybd_event( VK_F11, 0, 0, 0 );
+		keybd_event( VK_F11, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	case 12:
+		keybd_event( VK_F12, 0, 0, 0 );
+		keybd_event( VK_F12, 0, KEYEVENTF_KEYUP, 0);
+		break;
+
+	default:
+		break;
 	}
 }
 
@@ -478,6 +568,11 @@ void Keyboard_special(char *t)
 		keybd_event( VK_ADD, 0, KEYEVENTF_KEYUP, 0);
 		return;
 	}
+	if(strcmp(t, "esc")==0){
+		keybd_event( VK_ESCAPE, 0, 0, 0 );
+		keybd_event( VK_ESCAPE, 0, KEYEVENTF_KEYUP, 0);
+		return;
+	}
 }
 
 
@@ -487,21 +582,33 @@ void Keyboard_special(char *t)
 //  目的: マウスのボタン操作を制御する。
 //
 //
-void Mouse(char *u)
+void Mouse(char *u, HWND hWnd)
 {	
-	char *ctx, *delim=",";
+	char *ctx, *delim="!", *next;
 	int	z = 0;
 	static int flag = 0;
 
 	//LEFT
-	if(strcmp(u, MOUSE_LEFT_DOWN)==0){
+	if(strncmp(u, MOUSE_LEFT_DOWN, 2)==0){
 		if(flag==0){
 			mouse_event(MOUSEEVENTF_LEFTDOWN,0,0,0,0);
 			flag = 1;
+
+			next = strtok_s(u, delim, &ctx);
+			next = strtok_s(NULL, delim, &ctx);
+			x2 = atoi(next);
+			next = strtok_s(NULL, delim, &ctx);
+			y2 = atoi(next);
 		}
 		return;
 	}
 	if(strcmp(u, MOUSE_LEFT_UP)==0){
+		mouse_event(MOUSEEVENTF_LEFTUP,0,0,0,0);
+		flag = 0;
+		return;
+	}
+	if(strcmp(u, MOUSE_LEFT_CLICK)==0){
+		mouse_event(MOUSEEVENTF_LEFTDOWN,0,0,0,0);
 		mouse_event(MOUSEEVENTF_LEFTUP,0,0,0,0);
 		flag = 0;
 		return;
@@ -535,13 +642,26 @@ void Mouse(char *u)
 	}
 
 	//WHEEL
-	if(strcmp(u, MOUSE_CENTER_MOVE)==0){
-		u = strtok_s(NULL, delim, &ctx);
-		z = atoi(u);
+	if(strncmp(u, MOUSE_CENTER_MOVE, 2)==0){
+		next = strtok_s(u, delim, &ctx);
+		next = strtok_s(NULL, delim, &ctx);
+		z = atoi(next);
 		mouse_event(MOUSEEVENTF_WHEEL,0,0,z,0);
 	}
 }
 
+
+//
+//  関数: Mouse_move(int x1,int y1)
+//
+//  目的: マウスのカーソルの初期位置を設定する。
+//
+//
+void Mouse_move_init(int x1,int y1)
+{
+	x2 = x1;
+	y2 = y1;
+}
 
 //
 //  関数: Mouse_move(int x1,int y1)
@@ -552,11 +672,9 @@ void Mouse(char *u)
 void Mouse_move(int x1,int y1)
 {
 	int dx, dy;
-	static int x2 = 0;
-	static int y2 = 0;
 
-	dx = x2-x1;
-	dy = y2-y1;
+	dx = x1-x2;
+	dy = y1-y2;
 	mouse_event(MOUSEEVENTF_MOVE, dx, dy, 0, 0);
 
 	x2 = x1;

@@ -13,5 +13,9 @@
     <string name="pad_key_up">↑</string>
     <string name="pad_key_right">→</string>
     <string name="pad_key_space">SP</string>
+    <string name="chronometer">Chronometer</string>
+    <string name="close">✖</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 
 </resources>

@@ -59,6 +59,6 @@ public class Pad extends Activity {
 		super.onDestroy();
 		log.d("onDestroy");
 
-		finish();
+		//finish();
 	}
 }

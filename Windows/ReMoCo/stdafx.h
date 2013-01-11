@@ -20,8 +20,8 @@
 #include <string.h>
 
 //Windowê›íË
-#define	WINDOW_WIDTH	480
-#define	WINDOW_HEIGHT	340
+#define	WINDOW_WIDTH	200
+#define	WINDOW_HEIGHT	300
 #define MB_ERROR		MB_OK | MB_ICONERROR
 
 void usb(void* param);

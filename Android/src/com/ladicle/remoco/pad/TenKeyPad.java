@@ -15,10 +15,6 @@ import com.ladicle.remoco.util.MyLog;
 
 public class TenKeyPad extends Pad implements OnTouchListener {
 
-	public TenKeyPad() {
-		super("Tenkey");
-	}
-
 	private static final String CLASS_NAME = TenKeyPad.class.getSimpleName();
 	private static final MyLog log = new MyLog(CLASS_NAME);
 	private int[] buttonID = { 
@@ -33,11 +29,16 @@ public class TenKeyPad extends Pad implements OnTouchListener {
 	
 	private TextView[] buttons = new TextView[buttonID.length];
 	private View v;
+	
+	public TenKeyPad() {
+		super("Tenkey");
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pad_tenkey);
+		log.d("onCreate");
 		setViewSize();
 		findViews();
 	}
@@ -60,14 +61,7 @@ public class TenKeyPad extends Pad implements OnTouchListener {
 		int length = buttonID.length;
 		for (int i = 0; i < length; ++i) {
 			buttons[i] = (TextView) findViewById(buttonID[i]);
-			buttons[i].setOnTouchListener(new OnTouchListener() {
-				public boolean onTouch(View v, MotionEvent event) {
-					if(event.getAction()==MotionEvent.ACTION_DOWN){
-						Global.net.sendMessage((String) v.getTag());
-					}
-					return false;
-				}
-			});
+			buttons[i].setOnTouchListener(this);
 		}
 	}
 
@@ -78,37 +72,34 @@ public class TenKeyPad extends Pad implements OnTouchListener {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		int count = event.getPointerCount();
-		log.i("count:" + event.getPointerCount());
-
-		if (count == 3) {
-			// menu=true;
-			return super.onTouchEvent(event);
-		}
-
-		// if (!menu) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-
-			if (v == buttons[23] || v == buttons[19]) {
-
-			} else {
+		if (event.getPointerCount() !=1 && Global.net != null)
+			return false;
+		
+		if(event.getAction()==MotionEvent.ACTION_DOWN) {
+			String sendMessage = (String) v.getTag();
+			if(!sendMessage.equals("")) {
+				check(Global.net.sendMessage(sendMessage));
+			}
+			if(v!=buttons[19] && v!=buttons[23]) {
 				v.setBackgroundResource(R.drawable.background_gradlight_up);
 			}
-			break;
-
-		case MotionEvent.ACTION_UP:
-			if (v == buttons[23] || v == buttons[19]) {
-
-			} else {
+			return true;
+		}
+		
+		if(event.getAction()==MotionEvent.ACTION_UP) {
+			if(v!=buttons[19] && v!=buttons[23]) {
 				v.setBackgroundResource(R.drawable.background_gradlight_up2);
 			}
-			break;
-
-		default:
-			break;
 		}
-
-		return true;
+		
+		return false;
 	}
+	
+	private void check(boolean process) {
+		if (!process && Global.net != null) {
+			Global.net.stopServer();
+			Global.net = null;
+			finish();
+		}
+	}	
 }

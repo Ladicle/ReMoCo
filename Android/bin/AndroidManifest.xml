@@ -19,7 +19,7 @@
 		<activity android:name=".activity.ControllerActivity"
 			android:screenOrientation="portrait">
 		</activity>
-		<activity android:name=".pad.MousePad"
+		<activity android:name=".pad.NormalMousePad"
 			android:screenOrientation="portrait">
 		</activity>
 		<activity android:name=".activity.SelectActivity"
@@ -28,6 +28,12 @@
 		<activity android:name=".pad.TenKeyPad"
 			android:screenOrientation="portrait">
 		</activity>
+		<activity android:name=".pad.TouchPad"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity android:name=".pad.PowerPointerPad"
+			android:screenOrientation="portrait">
+		</activity>			
 	</application>
 
 </manifest>

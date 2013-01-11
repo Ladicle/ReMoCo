@@ -23,7 +23,6 @@ public class NormalMousePad extends Pad implements OnTouchListener {
 	// Mouse
 	private View  view;
 	private float center_y;
-	private float x, y;
 
 	public NormalMousePad() {
 		super(NAME);
@@ -61,15 +60,15 @@ public class NormalMousePad extends Pad implements OnTouchListener {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getPointerCount() != 1)
+		if (event.getPointerCount() !=1 && Global.net != null)
 			return false;
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			if(view==RightButton)	check(Global.net.sendMessage("1,rd"));
-			if(view==leftButton)	check(Global.net.sendMessage("1,ld"));
 			if(view==CenterButton)	center_y=event.getY();
-			if(view==moveField)		x=event.getX(); y=event.getY();
+			if(view==leftButton)	check(Global.net.sendMessage("1,ld!"+event.getX()+"!"+event.getY()));
+			if(view==moveField)		check(Global.net.sendMessage("5,"+event.getX()+","+event.getY()));
 			return true;
 
 		case MotionEvent.ACTION_UP:
@@ -78,14 +77,13 @@ public class NormalMousePad extends Pad implements OnTouchListener {
 			return true;
 
 		case MotionEvent.ACTION_MOVE:
-			if(view==moveField){
-				check(Global.net.sendMessage("2,"+(event.getX()-x)+","+(event.getY()-y)));
-				x=event.getX();
-				y=event.getY();
+			if(view==moveField || view==leftButton) {
+				check(Global.net.sendMessage("2,"+event.getX()+","+event.getY()));
 			}
 			if(view==CenterButton){
-				check(Global.net.sendMessage("1,cm,"+(event.getY()-center_y)));
-				center_y=event.getY();
+				float diff = (center_y-event.getY())*8;
+				check(Global.net.sendMessage("1,cm!"+diff));
+				center_y=event.getY();					
 			}
 			return true;
 

@@ -8,7 +8,7 @@
 #define BTN_ID_WIFI		(0)
 #define BTN_ID_USB		(BTN_ID_WIFI+1)
 #define BTN_ID_STOP		(BTN_ID_WIFI+2)
-#define WS_ORIGINSTYLE	WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE
+#define WS_ORIGINSTYLE	WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX
 #define WINDOW_X		(( GetSystemMetrics( SM_CXSCREEN ) - WINDOW_WIDTH  ) / 2)
 #define WINDOW_Y		(( GetSystemMetrics( SM_CYSCREEN ) - WINDOW_HEIGHT ) / 2)
 
@@ -167,9 +167,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
-		hWifiButton = CreatePushButton( hWnd, 20,  20, 80, 40,  _T("Wi-Fi"), BTN_ID_WIFI );
-		hUsbButton  = CreatePushButton( hWnd, 20,  70, 80, 40,  _T("USB"),	 BTN_ID_USB );
-		hStopButton = CreatePushButton( hWnd, 20,  120, 80, 40, _T("Stop"),  BTN_ID_STOP );
+		hWifiButton = CreatePushButton( hWnd, 20,  20, 140, 60,  _T("Wi-Fi"), BTN_ID_WIFI );
+		hUsbButton  = CreatePushButton( hWnd, 20,  90, 140, 60,  _T("USB"),	 BTN_ID_USB );
+		hStopButton = CreatePushButton( hWnd, 20,  160, 140, 60, _T("Stop"),  BTN_ID_STOP );
 		startButtonSetting(false);
 		return 0;
 
