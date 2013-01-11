@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_mouse"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_mouse"
+    android:background="@drawable/background_noise"
     android:orientation="vertical"
-    tools:ignore="UselessParent" xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:ignore="UselessParent" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -75,8 +76,10 @@
             android:id="@+id/right"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/background_button"
+            android:gravity="center_vertical|center_horizontal"
             android:onClick="onChangePage"
             android:tag="3,r"
             android:text="@string/pad_key_right"

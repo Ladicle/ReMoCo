@@ -17,5 +17,11 @@
     <string name="close">✖</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="kye_insert">Insert</string>
+    <string name="key_home">Home</string>
+    <string name="key_pu">Page\\nUp</string>
+    <string name="ke_delete">Delete</string>
+    <string name="key_end">End</string>
+    <string name="key_pd">Page\\nDown</string>
 
 </resources>

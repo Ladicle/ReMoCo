@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_tenkey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_noise" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame2"
+        android:orientation="vertical" >
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tenky_btn8"
+                style="@style/tenkey_button"
+                android:tag="0,7"
+                android:text="@string/kye_insert" />
+
+            <TextView
+                android:id="@+id/tenky_btn9"
+                style="@style/tenkey_button"
+                android:tag="0,8"
+                android:text="@string/key_home" />
+
+            <TextView
+                android:id="@+id/tenky_btn10"
+                style="@style/tenkey_button"
+                android:tag="0,9"
+                android:text="@string/key_pu" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tenky_btn12"
+                style="@style/tenkey_button"
+                android:tag="0,4"
+                android:text="@string/ke_delete" />
+
+            <TextView
+                android:id="@+id/tenky_btn13"
+                style="@style/tenkey_button"
+                android:tag="0,5"
+                android:text="@string/key_end" />
+
+            <TextView
+                android:id="@+id/tenky_btn14"
+                style="@style/tenkey_button"
+                android:tag="0,6"
+                android:text="@string/key_pd" />
+        </TableRow>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/frame3"
+        android:orientation="vertical" >
+
+        <TableRow
+            android:id="@+id/TableRow02"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/TextView02"
+        		android:layout_width="0dp"
+        		android:layout_height="match_parent"
+        		android:layout_weight="1"      
+        		android:gravity="center"
+        		android:focusable="true"
+        		android:focusableInTouchMode="true"                
+			 />
+
+            <TextView
+                android:id="@+id/TextView01"
+                style="@style/tenkey_button"
+                android:tag="0,8"
+                android:text="@string/pad_key_up" />
+
+            <TextView
+                android:id="@+id/TextView06"
+        		android:layout_width="0dp"
+        		android:layout_height="match_parent"
+        		android:layout_weight="1"      
+        		android:gravity="center"
+        		android:focusable="true"
+        		android:focusableInTouchMode="true"                
+			 />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/TextView05"
+                style="@style/tenkey_button"
+                android:tag="0,4"
+                android:text="@string/pad_key_left" />
+
+            <TextView
+                android:id="@+id/TextView04"
+                style="@style/tenkey_button"
+                android:tag="0,5"
+                android:text="@string/pad_key_down" />
+
+            <TextView
+                android:id="@+id/TextView03"
+                style="@style/tenkey_button"
+                android:tag="0,6"
+                android:text="@string/pad_key_right" />
+        </TableRow>
+    </LinearLayout>
+
+</TableLayout>
